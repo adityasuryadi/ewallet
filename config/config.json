@@ -1,0 +1,28 @@
+{
+    "app": {
+      "name": "ewallet"
+    },
+    "web": {
+      "prefork": false,
+      "port": 3000
+    },
+    "grpc": {
+      "port": 6000
+    },
+    "log": {
+      "level": 3
+    },
+    "database": {
+      "username": "user",
+      "password": "1200T",
+      "host": "34.101.127.83",
+      "port": 3306,
+      "name": "db_antrique",
+      "pool": {
+        "idle": 10,
+        "max": 100,
+        "lifetime": 300
+      }
+    }
+}
+  
