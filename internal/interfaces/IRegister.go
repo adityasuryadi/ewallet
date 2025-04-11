@@ -6,8 +6,9 @@ import (
 	"github.com/adityasuryadi/ewallet/internal/models"
 )
 
-type IRegisterRepository interface {
+type IUserRepository interface {
 	InsertUser(user *models.User) error
+	GetUserByUsername(ctx context.Context, username string) (*models.User, error)
 }
 
 type IRegisterService interface {

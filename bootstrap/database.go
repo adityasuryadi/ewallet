@@ -1,12 +1,12 @@
 package bootstrap
 
 import (
-	"strconv"
+	"fmt"
 	"time"
 
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
-	"gorm.io/driver/mysql"
+	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
@@ -20,20 +20,9 @@ func NewDatabase(viper *viper.Viper, log *logrus.Logger) *gorm.DB {
 	maxConnection := viper.GetInt("database.pool.max")
 	maxLifeTimeConnection := viper.GetInt("database.pool.lifetime")
 
-	p := strconv.Itoa(port)
+	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%d sslmode=disable TimeZone=UTC", host, username, password, database, port)
 
-	dsn := username + ":" + password + "@tcp(" + host + ":" + p + ")/" + database + "?charset=utf8mb4&parseTime=True&loc=Local"
-	db, err := gorm.Open(mysql.Open(dsn))
-
-	if err != nil {
-		log.Fatalf("failed to connect database: %v", err)
-	}
-
-	// err = db.Use(otelgorm.NewPlugin(otelgorm.WithDBName(viper.GetString("database.name"))))
-	// if err != nil {
-	// 	log.Fatalf("failed to set gorm plugin for opentelemetry: %v", err)
-	// }
-
+	db, err := gorm.Open(postgres.Open(dsn))
 	connection, err := db.DB()
 	if err != nil {
 		log.Fatalf("failed to connect database: %v", err)

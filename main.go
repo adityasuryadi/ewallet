@@ -12,7 +12,7 @@ func main() {
 	// logger := bootstrap.SetupLogger()
 
 	// db := bootstrap.NewDatabase(config, logger)
-	go cmd.ServeGRPC(config)
+	// go cmd.ServeGRPC(config)
 
 	helpers.SetupLogger()
 

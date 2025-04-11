@@ -13,11 +13,11 @@
       "level": 3
     },
     "database": {
-      "username": "user",
-      "password": "1200T",
-      "host": "34.101.127.83",
-      "port": 3306,
-      "name": "db_antrique",
+      "username": "postgres",
+      "password": "postgres",
+      "host": "localhost",
+      "port": 5432,
+      "name": "ewallet_ums",
       "pool": {
         "idle": 10,
         "max": 100,
