@@ -12,7 +12,7 @@ type User struct {
 	Email       string    `json:"email" gorm:"column:email;type:varchar(255);" validate:"required,email"`
 	Password    string    `json:"password,omitempty" gorm:"column:password;type:varchar(255);" validate:"required,min=6"`
 	PhoneNumber string    `json:"phone_number" gorm:"column:phone_number;type:varchar(255);" validate:"required"`
-	FullName    string    `json:"full_name" gorm:"column:full_name;type:varchar(255);" validate:"required"`
+	Fullname    string    `json:"full_name" gorm:"column:full_name;type:varchar(255);" validate:"required"`
 	Address     string    `json:"address" gorm:"column:address;type:varchar(255);" validate:"required"`
 	Dob         string    `json:"dob" gorm:"column:dob;type:date;" validate:"required"`
 	CreatedAt   time.Time `json:"-"`
