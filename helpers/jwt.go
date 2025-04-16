@@ -50,19 +50,18 @@ func ValidateToken(ctx context.Context, token string) (*ClaimToken, error) {
 		claimToken *ClaimToken
 		ok         bool
 	)
-
 	jwtToken, err := jwt.ParseWithClaims(token, &ClaimToken{}, func(t *jwt.Token) (interface{}, error) {
 		if _, ok := t.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("failed to validate token %v", t.Header["alg"])
 		}
-		return jwtSecret, nil
+		return []byte(jwtSecret), nil
 	})
 
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse jwt %v", err)
 	}
 
-	if claimToken, ok = jwtToken.Claims.(*ClaimToken); ok || !jwtToken.Valid {
+	if claimToken, ok = jwtToken.Claims.(*ClaimToken); !ok || !jwtToken.Valid {
 		return nil, fmt.Errorf("failed to validate token %v", err)
 	}
 

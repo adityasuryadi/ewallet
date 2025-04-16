@@ -2,6 +2,8 @@ package repository
 
 import (
 	"context"
+	"errors"
+	"fmt"
 
 	"github.com/adityasuryadi/ewallet/internal/models"
 	"gorm.io/gorm"
@@ -30,4 +32,28 @@ func (r *UserRepository) InserUserSession(ctx context.Context, session *models.U
 		return err
 	}
 	return nil
+}
+
+func (r *UserRepository) DeleteUserSession(ctx context.Context, token string) error {
+	err := r.DB.Where("token = ?", token).Delete(&models.UserSession{}).Debug().Error
+	if err != nil {
+		fmt.Printf("error delete user session %s", err.Error())
+		return err
+	}
+	return nil
+}
+
+func (r *UserRepository) GetUserSessionByToken(ctx context.Context, token string) (models.UserSession, error) {
+	var (
+		session models.UserSession
+		err     error
+	)
+	err = r.DB.Where("token = ?", token).First(&session).Error
+	if err != nil {
+		return session, err
+	}
+	if session.ID == 0 {
+		return session, errors.New("session not found")
+	}
+	return session, nil
 }

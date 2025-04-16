@@ -7,21 +7,21 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type Healtcheck struct {
+type HealtcheckHandler struct {
 	HealthcheckServices interfaces.IHealthcheckService
 }
 
-func (api *Healtcheck) Healtcheck(c *gin.Context) error {
+func (api *HealtcheckHandler) Healtcheck(c *gin.Context) {
 	msg, err := api.HealthcheckServices.HealthcheckServices()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, err.Error())
-		return err
+		return
 	}
 	c.JSON(http.StatusOK, msg)
-	return nil
+	return
 }
 
-func (api *Healtcheck) HealtcheckHandlerHttp(c *gin.Context) {
+func (api *HealtcheckHandler) HealtcheckHandlerHttp(c *gin.Context) {
 	msg, err := api.HealthcheckServices.HealthcheckServices()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, err.Error())

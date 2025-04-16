@@ -4,12 +4,11 @@ import (
 	"context"
 
 	"github.com/adityasuryadi/ewallet/internal/models"
+	"github.com/gin-gonic/gin"
 )
 
-type IUserRepository interface {
-	InsertUser(user *models.User) error
-	GetUserByUsername(ctx context.Context, username string) (*models.User, error)
-	InserUserSession(ctx context.Context, session *models.UserSession) error
+type IRegisterHandler interface {
+	Register(c *gin.Context)
 }
 
 type IRegisterService interface {
