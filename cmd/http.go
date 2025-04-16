@@ -14,11 +14,12 @@ import (
 )
 
 type Dependency struct {
-	UserRepository interfaces.IUserRepository
-	RegisterAPI    interfaces.IRegisterHandler
-	LoginAPI       interfaces.ILoginHandler
-	LogoutAPI      interfaces.ILogoutHandler
-	HealthcheckAPI interfaces.IHealthcheckHandler
+	UserRepository  interfaces.IUserRepository
+	RegisterAPI     interfaces.IRegisterHandler
+	LoginAPI        interfaces.ILoginHandler
+	LogoutAPI       interfaces.ILogoutHandler
+	HealthcheckAPI  interfaces.IHealthcheckHandler
+	RefreshTokenAPI interfaces.IRefreshTokenHandler
 }
 
 func dependencyInject(config *viper.Viper) Dependency {
@@ -38,21 +39,28 @@ func dependencyInject(config *viper.Viper) Dependency {
 	logoutService := &services.LogoutService{
 		UserRepository: userRepository,
 	}
+	refreshTokenService := &services.RefreshTokenService{
+		UserRepository: userRepository,
+	}
 	healthcheckAPI := api.HealtcheckHandler{}
 	registerAPI := api.Register{RegisterService: registerService}
 	loginAPI := api.LoginHandler{
 		LoginService: *loginService,
+	}
+	refreshTokenAPI := api.RefreshTokenHandler{
+		RefreshTokenService: refreshTokenService,
 	}
 
 	logoutAPI := api.LogoutHandler{
 		LogoutService: logoutService,
 	}
 	return Dependency{
-		UserRepository: userRepository,
-		RegisterAPI:    &registerAPI,
-		LoginAPI:       &loginAPI,
-		LogoutAPI:      &logoutAPI,
-		HealthcheckAPI: &healthcheckAPI,
+		UserRepository:  userRepository,
+		RegisterAPI:     &registerAPI,
+		LoginAPI:        &loginAPI,
+		LogoutAPI:       &logoutAPI,
+		HealthcheckAPI:  &healthcheckAPI,
+		RefreshTokenAPI: &refreshTokenAPI,
 	}
 }
 
@@ -62,6 +70,7 @@ func ServeHttp(config *viper.Viper) {
 	r := gin.Default()
 	r.GET("/health", dependency.HealthcheckAPI.Healtcheck)
 	r.POST("/register", dependency.RegisterAPI.Register)
+	r.PUT("/refresh-token", dependency.MiddlewareRefreshToken, dependency.RefreshTokenAPI.RefreshToken)
 	r.POST("/login", dependency.LoginAPI.Login)
 	r.POST("/logout", dependency.MiddlewareValidateAuth, dependency.LogoutAPI.Logout)
 	err := r.Run(":" + config.GetString("web.port"))

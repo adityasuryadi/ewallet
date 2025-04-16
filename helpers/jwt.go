@@ -32,7 +32,7 @@ func GenerateToken(ctx context.Context, userId int, username string, fullname st
 		RegisteredClaims: jwt.RegisteredClaims{
 			Issuer:    "ewallet",
 			IssuedAt:  jwt.NewNumericDate(now),
-			ExpiresAt: jwt.NewNumericDate(now.Add(MapTypeToken["token"])),
+			ExpiresAt: jwt.NewNumericDate(now.Add(MapTypeToken[tokenType])),
 		},
 	}
 

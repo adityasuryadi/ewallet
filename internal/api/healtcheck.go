@@ -18,7 +18,6 @@ func (api *HealtcheckHandler) Healtcheck(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, msg)
-	return
 }
 
 func (api *HealtcheckHandler) HealtcheckHandlerHttp(c *gin.Context) {

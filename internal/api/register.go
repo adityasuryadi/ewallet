@@ -33,5 +33,4 @@ func (api *Register) Register(c *gin.Context) {
 	}
 
 	helpers.SendResponseHTTP(c, http.StatusOK, constants.SuccessMessage, resp)
-	return
 }

@@ -22,6 +22,5 @@ func (s *LogoutService) Logout(ctx context.Context, token string) error {
 		log.Errorf("error delete user session %s", err.Error())
 		return err
 	}
-
 	return nil
 }

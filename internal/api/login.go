@@ -46,5 +46,4 @@ func (api *LoginHandler) Login(c *gin.Context) {
 	}
 
 	helpers.SendResponseHTTP(c, http.StatusOK, constants.SuccessMessage, response)
-	return
 }

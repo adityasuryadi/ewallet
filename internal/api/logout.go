@@ -20,5 +20,4 @@ func (api *LogoutHandler) Logout(c *gin.Context) {
 		return
 	}
 	helpers.SendResponseHTTP(c, http.StatusOK, constants.SuccessMessage, nil)
-	return
 }
